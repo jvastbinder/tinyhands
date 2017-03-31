@@ -10,6 +10,7 @@ from export_import import irf_io, vif_io
 from rest_api.authentication import HasPermission
 
 
+#TODO will this export put all of them on same spreadsheet but different sheets w/in or will there need to be a version number here?
 class IrfCsvExportView(APIView):
     permission_classes = [IsAuthenticated, HasPermission]
     permissions_required = ['permission_irf_view']

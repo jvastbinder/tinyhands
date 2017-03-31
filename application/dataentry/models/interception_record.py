@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import Account
 from border_station import BorderStation
 
-
+#TODO <Insert complete overhaul here and probably a few other models>
 def set_weight(self, weight):
     self.weight = weight
     return self
@@ -191,6 +191,7 @@ class InterceptionRecord(models.Model):
 
     border_station = models.ForeignKey(BorderStation,  models.SET_NULL, null=True, blank=True)
 
+    #TODO go through questions for irf version questions to get responses' associated red flag points
     def calculate_total_red_flags(self):
         total = 0
         for field in self._meta.fields:

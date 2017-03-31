@@ -22,6 +22,7 @@ class Command(BaseCommand):
 
     def get_or_create_default_irf(self):
         try:
+            #TODO Location shouldn't be a separate question from the base Interception Record, but if it is, get Interception records based on foreign response object correlated to location question
             irf = InterceptionRecord.objects.get(location="Bad foreign Key IRF")
         except:
             irf = IrfFactory.create(location="Bad foreign Key IRF")
@@ -60,6 +61,7 @@ class Command(BaseCommand):
 
         #  The IRF process is a little different so I had to do it separately down here.
         valid_irfs = [irf.id for irf in InterceptionRecord.objects.all()]
+        #TODO should not be affected
         for interceptee in Interceptee.objects.all():
             if interceptee.interception_record_id not in valid_irfs:
                 interceptee.interception_record_id = default_irf.id

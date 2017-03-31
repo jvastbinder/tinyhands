@@ -29,6 +29,7 @@ urlpatterns = [
         # IRFs
         url(r'^irf/$', InterceptionRecordViewSet.as_view(list), name="InterceptionRecord"),
         url(r'^irf/(?P<pk>\d+)/$', InterceptionRecordViewSet.as_view(detail), name="InterceptionRecordDetail"),
+        #TODO will this export put all of them on same spreadsheet but different sheets w/in or will there need to be a version number here?
         url(r'^irf/export/$', IrfCsvExportView.as_view(), name="InterceptionRecordCsvExport"),
 
         # Interceptee

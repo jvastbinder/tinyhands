@@ -2,6 +2,7 @@ from django.contrib import admin
 from dataentry.models import InterceptionRecord, VictimInterview, Address1, Address2, BorderStation
 
 
+#TODO this should be the same for any IRF version but we may want to include a country field for list display and search field
 class InterceptionRecordAdmin(admin.ModelAdmin):
     model = InterceptionRecord
     search_fields = ['irf_number', 'staff_name']

@@ -87,6 +87,7 @@ class BorderStationSerializer(serializers.ModelSerializer):
         return Interceptee.objects.filter(interception_record__irf_number__startswith=obj.station_code, kind='v', interception_record__date_time_of_interception__year=datetime.date.today().year).count()
 
 
+#TODO double check to make sure these fields are all included in new model
 class InterceptionRecordListSerializer(serializers.ModelSerializer):
     class Meta:
         model = InterceptionRecord
@@ -118,6 +119,7 @@ class InterceptionRecordListSerializer(serializers.ModelSerializer):
     )
 
 
+#TODO probably need to connect to rules for specific version to do error checking
 class InterceptionRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = InterceptionRecord

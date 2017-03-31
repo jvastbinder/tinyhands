@@ -242,6 +242,7 @@ class Command(BaseCommand):
         sanitized = 0
 
         sanitized += self.sanitize(Interceptee, ['photo'], [], [], [], None)
+        #TODO need to santize responses rather than record
         sanitized += self.sanitize(InterceptionRecord, [], [], [], ['scanned_form'], self.irf_file_prefix)
         sanitized += self.sanitize(VictimInterview, [],
                                    ['interviewer', 'legal_action_fir_against_value', 'legal_action_dofe_against_value'],

@@ -14,6 +14,7 @@ from dataentry.models import InterceptionRecord
 
 class TestModels(WebTest):
 
+    #TODO create interception record with questions and a form with responses to those questions
     def test_interception_record_model(self):
         record = InterceptionRecord(
             who_in_group_alone=0,
@@ -105,6 +106,7 @@ class ExportTesting(WebTest):
         self.vif = VifFactory.create()
 
     def test_to_see_if_user_can_export_irf(self):
+        #TODO will probably need to tell what irf version number to export
         response = self.app.get(reverse('InterceptionRecordCsvExport'), user=self.user)
         self.assertEqual(response.status_code, 200)
 
@@ -112,6 +114,7 @@ class ExportTesting(WebTest):
         response = self.app.get(reverse('InterceptionRecordCsvExport'), user=self.user)
         today = date.today()
         result = response['Content-Disposition']
+        #TODO file name will probably include irf version number in some way
         expected_result = 'attachment; filename=irf-all-data-%d-%d-%d.csv' % (today.year, today.month, today.day)
         self.assertEquals(result, expected_result)
 
@@ -142,6 +145,7 @@ class ExportTesting(WebTest):
                 self.assertTrue(False)
 
     def test_to_make_sure_no_offset_in_irf_export_file(self):
+        #TODO will probably need to tell what irf version number to export
         response = self.app.get(reverse('InterceptionRecordCsvExport'), user=self.user)
         result = response.normal_body
         temp = list(result)  # this is a temp fix to add an extra comma that is missing

@@ -93,6 +93,7 @@ class SearchFormsMixin(object):
         return context
 
 
+#TODO Will we continue to use Inline for connecting interceptees, won't need max even if we do
 class IntercepteeInline(InlineFormSet):
     model = Interceptee
     extra = 12
@@ -145,6 +146,7 @@ class IRFImageAssociationMixin(object):
         return super(IRFImageAssociationMixin, self).forms_valid(form, inlines)
 
 
+#TODO Should include version number so it can connect to specific questions classes/inlines
 class InterceptionRecordCreateView(LoginRequiredMixin, PermissionsRequiredMixin, IRFImageAssociationMixin,
                                    CreateWithInlinesView):
     model = InterceptionRecord
@@ -172,6 +174,7 @@ class InterceptionRecordCreateView(LoginRequiredMixin, PermissionsRequiredMixin,
         return HttpResponseRedirect(self.get_success_url())
 
 
+#TODO Should include response model and probably won't have form classes/inlines
 class InterceptionRecordUpdateView(LoginRequiredMixin, PermissionsRequiredMixin, IRFImageAssociationMixin,
                                    UpdateWithInlinesView):
     model = InterceptionRecord
@@ -387,6 +390,7 @@ class InterceptionRecordViewSet(viewsets.ModelViewSet):
     delete_permissions_required = ['permission_irf_delete']
 
     filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    #TODO include country?
     search_fields = ('irf_number',)
     ordering_fields = (
         'irf_number', 'staff_name', 'number_of_victims', 'number_of_traffickers', 'date_time_of_interception',
@@ -408,6 +412,7 @@ class InterceptionRecordViewSet(viewsets.ModelViewSet):
         self.serializer_class = temp  # put the original serializer back in place
         return super_list_response
 
+    #TODO include form version number in this call to get right meta fields and probably a good bit of customization to get field types and values
     def retrieve(self, request, *args, **kwargs):
         response = {}
         response = super(InterceptionRecordViewSet, self).retrieve(request, *args, **kwargs)

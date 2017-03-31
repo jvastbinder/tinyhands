@@ -82,6 +82,7 @@ class DreamSuitePaperForm(forms.ModelForm):
         return False
 
 
+#TODO Should not even need this
 class InterceptionRecordForm(DreamSuitePaperForm):
     contact_paid = forms.MultipleChoiceField(
         choices=BOOLEAN_CHOICES,

@@ -32,6 +32,7 @@ inv_how_sure = {}
 for tup in InterceptionRecord.HOW_SURE_TRAFFICKING_CHOICES:
     inv_how_sure[tup[1]] = tup[0]
 
+#TODO we will probably need a new one of these for each irf version and will need to be able to connect to the related "response"" fields for most of these
 irf_data = [
     CopyCsvField("irf_number", "IRF Number", False),
     BorderStationExportOnlyCsv("station_name", "Station", "irf_number"),

@@ -8,6 +8,7 @@ from accounts.tests.factories import SuperUserFactory
 from dataentry.models import *
 
 
+#TODO this should be similar, if not the same - should we include response factory?
 class IrfFactory(DjangoModelFactory):
     class Meta:
         model = InterceptionRecord

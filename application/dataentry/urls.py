@@ -3,6 +3,7 @@ from dataentry.views import *
 
 urlpatterns = [
     url(r'^irfs/(?P<pk>\d+)/$', InterceptionRecordDetailView.as_view(), name='interceptionrecord_detail'),
+    #TODO include irf version in create url
     url(r'^irfs/create/$', InterceptionRecordCreateView.as_view(), name='interceptionrecord_create'),
     url(r'^irfs/irfExists/([A-Z]{3}[0-9]+[A-Z]*)', irfExists, name='IrfExists'),
     url(r'^irfs/update/(?P<pk>\d+)/$', InterceptionRecordUpdateView.as_view(), name='interceptionrecord_update'),

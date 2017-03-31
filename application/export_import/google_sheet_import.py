@@ -57,6 +57,7 @@ class GoogleSheetImport (GoogleSheet):
                     self.update_cell(key_idx+2, self.issue_idx, " ")
                     
     @staticmethod
+    #TODO will we create a new sheet for each version type?
     def import_irfs():
         import_sheet = GoogleSheetImport(settings.SPREADSHEET_NAME, settings.IRF_IMPORT_WORKSHEET_NAME, 'Import Status', get_irf_export_rows, 'Import Issues', 'IRF number', import_irf_row)
         import_sheet.import_rows()

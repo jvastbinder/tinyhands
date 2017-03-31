@@ -100,6 +100,7 @@ class VIFAlertChecker(object):
 
 
 class IRFAlertChecker(object):
+    #TODO probably won't be using inlines to get interceptees
     def __init__(self, form, inlines):
         self.irf = form
         self.interceptees = inlines[0]
@@ -172,6 +173,7 @@ class IRFAlertChecker(object):
         alert.
 
         """
+        #TODO this may be fine as long as calculate red_flags is properly implemented and how_sure_was_trafficking is a common question on irfs
         trafficker_in_custody = self.trafficker_in_custody()
         red_flags = self.irf.calculate_total_red_flags()
         certainty_points = self.irf.how_sure_was_trafficking
@@ -216,6 +218,7 @@ class IRFAlertChecker(object):
         Returns the value of the trafficker in custody on the IRF
         If there is not one, it returns empty string
         """
+        #TODO new reference to get trafficker info from irf
         traff_format = ''
         trafficker_in_custody = self.irf.trafficker_taken_into_custody
         logger.debug("trafficker_in_custody=" + trafficker_in_custody)
