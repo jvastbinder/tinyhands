@@ -124,19 +124,20 @@ def top_table_data(pk, month, year, budget_sheets):
                 "last_3_months_cost": last_3_months_cost,
                 "last_3_months_int_cost": last_3_months_cost/last_3_months_count_divide,
                 "staff_count": staff_count,
-                "last_months_total_cost": last_months_cost
         }
 
     # If this border station has not had a previous budget calculation worksheet
     return {
          "all": all_interception_records_count,
          "all_cost": 0,
+         "all_int_cost": 0,
          "last_month": last_months_count,
          "last_months_cost": 0,
+         "last_months_int_cost": 0,
          "last_3_months": last_3_months_count,
          "last_3_months_cost": 0,
+         "last_3_months_int_cost": 0,
          "staff_count": staff_count,
-         "last_months_total_cost": 0
     }
 
 
