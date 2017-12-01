@@ -168,7 +168,7 @@ class InterceptionRecordCreateView(LoginRequiredMixin, PermissionsRequiredMixin,
             interceptee = formset.save()
             interceptees.append(interceptee)
         logger.debug("IRF Create: After save for " + form.irf_number)
-        irf_done.send_robust(sender=self.__class__, irf_number=form.irf_number, irf=form, interceptees=interceptees)
+        irf_done.send_robust(sender=self.__class__, irf_number=form.irf_number, irf=form, interceptees=interceptees, create_story=True)
         return HttpResponseRedirect(self.get_success_url())
 
 

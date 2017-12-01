@@ -31,6 +31,20 @@ SPREADSHEET_CONFIG = {
             'issue_column': 'Import Issues',
             },
         },
+    'IRF_STORY': {
+        'key_column' : 'IRF Number',
+        'export': {
+            'spreadsheet': 'Tinyhands Story',
+            'sheet':'IRFs',
+            'export_function': 'export_import.irf_io.get_irf_export_rows',
+            },
+        },               
+    'STORY': {
+        'read': {
+            'spreadsheet': 'Tinyhands Story',
+            'sheet':'Stories',
+            },
+        },
     'VIF': {
         'key_column': 'VIF Number',
         'export': {
@@ -51,5 +65,38 @@ SPREADSHEET_CONFIG = {
             'spreadsheet':'Tinyhands',
             'sheet':'Address2 Export',
             }
-        }
+        },
+    'TEST_GoogleSheetExportBase': {
+        'edit': {
+            'spreadsheet': 'TestSpreadsheet',
+            'sheet':'TestExportBase',
+            }
+        },
+    'TEST_GoogleSheetImportBase': {
+        'edit': {
+            'spreadsheet': 'TestSpreadsheet',
+            'sheet':'TestImportBase',
+            }
+        },
+    'TEST_GoogleSheetBasic': {
+        'edit': {
+            'spreadsheet': 'TestSpreadsheet',
+            'sheet':'TestExport',
+            }
+        },
+    'TEST_GoogleSheet': {
+        'key_column': 'The Key',
+        'export': {
+            'spreadsheet':'TestSpreadsheet',
+            'sheet':'TestExport',
+            'export_function': 'export_import.test.test_google_sheet_basic.export_row',
+            },
+        'import': {
+            'spreadsheet':'TestSpreadsheet',
+            'sheet':'TestImport',
+            'import_function': 'export_import.vtest.test_google_sheet.import_row',
+            'status_column': 'Import Status',
+            'issue_column': 'Import Issues',
+            }
+        },
     }

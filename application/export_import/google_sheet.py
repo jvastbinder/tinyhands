@@ -87,14 +87,14 @@ class GoogleSheet (GoogleSheetBasic):
         
         self.column_map = column_map
         
-    def map_export_to_columns(self, rows):
+    def map_export_to_columns(self, rows, start_column=0):
         if self.column_map == None:
             self.map_headers(rows[0])
             
         mapped_rows = []
         for data_idx in range(1,len(rows)):
             mapped_row = []
-            for col_idx in range(len(self.column_map)):
+            for col_idx in range(start_column, len(self.column_map)):
                 if self.column_map[col_idx] is not None and self.column_map[col_idx] < len(rows[data_idx]):
                     mapped_row.append(str(rows[data_idx][self.column_map[col_idx]]))
                 else:
@@ -118,13 +118,18 @@ class GoogleSheet (GoogleSheetBasic):
         mapped_rows = self.map_export_to_columns(rows)
         self.append_premapped_rows(mapped_rows)
         
-    def update(self, key_value, new_object):
+    def get_mapped_data(self, new_object, starting_column):
         if new_object is None:
             new_mapped = []
         else:
             new_rows = self.export_method([new_object])
             logger.debug("row count returned by export method = " + str(len(new_rows)))
-            new_mapped = self.map_export_to_columns(new_rows)
+            new_mapped = self.map_export_to_columns(new_rows, start_column = starting_column)
+        
+        return new_mapped
+        
+    def update(self, key_value, new_object):
+        new_mapped = self.get_mapped_data(new_object, 0)
         
         self.refresh_keys()
         

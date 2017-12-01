@@ -80,7 +80,7 @@ class GoogleSheetBasic:
         logger.debug("after get metadata")
         
     @staticmethod
-    def from_settings(data_type):
+    def from_settings(data_type, tag='replace'):
         sheet_settings = ['spreadsheet', 'sheet']
         
         data_setting = None
@@ -90,18 +90,18 @@ class GoogleSheetBasic:
             logger.error('Unable to find setting for data type ' + data_type)
             return
         
-        if 'replace' not in data_setting:
-            logger.error('Unable to find export settings for data type ' + data_type)
+        if tag not in data_setting:
+            logger.error('Unable to find ' + tag + ' settings for data type ' + data_type)
             return
         
         for setting in sheet_settings:
-            if setting not in data_setting['replace']:
-                logger.error('Unable to find replace setting ' + setting + ' for data type ' + data_type)
+            if setting not in data_setting[tag]:
+                logger.error('Unable to find ' + tag + ' setting ' + setting + ' for data type ' + data_type)
                 return
         
         return GoogleSheetBasic(
-            data_setting['replace']['spreadsheet'],
-            data_setting['replace']['sheet'])
+            data_setting[tag]['spreadsheet'],
+            data_setting[tag]['sheet'])
         
     def delete_request(self, first_row, last_row):
         req = {
@@ -166,6 +166,13 @@ class GoogleSheetBasic:
             "values":[[val]]
             }
         rng = self.sheet_name + "!" + self.convert_notation(row, col) + ":" + self.convert_notation(row, col)
+        GoogleSheetBasic.sheet_service.spreadsheets().values().update(spreadsheetId=self.spreadsheet_id, range=rng, valueInputOption="USER_ENTERED", body=body).execute()
+        
+    def update_cells(self, start_row, start_col, end_row, end_col, vals):
+        body = {
+            "values":vals
+            }
+        rng = self.sheet_name + "!" + self.convert_notation(start_row, start_col) + ":" + self.convert_notation(end_row, end_col)
         GoogleSheetBasic.sheet_service.spreadsheets().values().update(spreadsheetId=self.spreadsheet_id, range=rng, valueInputOption="USER_ENTERED", body=body).execute()
 
     def append_rows(self, vals):
