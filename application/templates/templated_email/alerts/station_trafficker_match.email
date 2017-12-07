@@ -1,0 +1,14 @@
+{% block subject %} Trafficker matched by {{ matched_by.first_name }} {{ matched_by.last_name }}!{% endblock %}
+
+{% block html %}
+    <p>Attention: {{ account.first_name }},</p>
+
+    <p>{{ matched_by.first_name }} {{ matched_by.last_name }} just had a trafficker match for the following person: </p> 
+    
+    <p>Name: {{ candidate.full_name }} </p>
+    <p>Number: {{ candidate.phone_contact }}</p>
+    <p>Matched Form: {{ candidate.form_number }}</p>
+
+    <p> Please follow up with the station as necessary. </p>
+
+{% endblock %}

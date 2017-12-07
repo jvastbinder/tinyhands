@@ -42,5 +42,16 @@
     },
     "model": "accounts.alert",
     "pk": 5
+},
+{
+    "fields": {
+        "permissions_group": [
+            1
+        ],
+        "code": "Station Trafficker Match",
+        "email_template": "station_trafficker_match"
+    },
+    "model": "accounts.alert",
+    "pk": 6
 }
 ]

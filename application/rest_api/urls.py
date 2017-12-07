@@ -5,6 +5,7 @@ from dataentry.views import PersonViewSet
 from dataentry.views import SiteSettingsViewSet
 from dataentry.views import CountryViewSet
 from dataentry.views import IDManagementViewSet, TraffickerCheckViewSet
+from dataentry.views import send_station_match_alert
 
 
 list = {'get': 'list', 'post': 'create'}
@@ -65,4 +66,7 @@ urlpatterns = [
         #Countries
         url(r'^country/$', CountryViewSet.as_view(list), name='Country'),
         url(r'^country/(?P<pk>\d+)/$', CountryViewSet.as_view(detail), name='Countrydetail'),
+
+        #TraffickerMatch
+        url(r'^traffickermatch/sendalert/$', send_station_match_alert, name='PasswordReset')
 ]

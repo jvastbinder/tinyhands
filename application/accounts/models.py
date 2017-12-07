@@ -175,7 +175,7 @@ class AlertManager(models.Manager):
 
 class Alert(models.Model):
     LEGAL_CODES = ['fir and dofe against', 'strength of case']
-    INVESTIGATION_CODES = ['Name Match', 'Identified Trafficker']
+    INVESTIGATION_CODES = ['Name Match', 'Identified Trafficker', 'Station Trafficker Match']
 
     code = models.CharField(max_length=255, unique=True)
     email_template = models.CharField(max_length=255)
