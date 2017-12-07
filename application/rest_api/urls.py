@@ -68,5 +68,5 @@ urlpatterns = [
         url(r'^country/(?P<pk>\d+)/$', CountryViewSet.as_view(detail), name='Countrydetail'),
 
         #TraffickerMatch
-        url(r'^traffickermatch/sendalert/$', send_station_match_alert, name='PasswordReset')
+        url(r'^traffickermatch/sendalert/$', send_station_match_alert, name='TraffickerMatch')
 ]
