@@ -162,13 +162,3 @@ class AlertFactory(DjangoModelFactory):
     email_template = "test"
     code = factory.Sequence(lambda n: 'code{0}'.format(n))
 
-    @factory.post_generation
-    def permissions_group(self, create, extracted):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if extracted:
-            # A list of groups were passed in, use them
-            for group in extracted:
-                self.permissions_group.add(group)

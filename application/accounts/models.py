@@ -41,16 +41,6 @@ class DefaultPermissionsSet(models.Model):
     def is_used_by_accounts(self):
         return self.accounts.count() > 0
 
-    def email_accounts(self, alert, context={}):
-        if alert.is_investigation():
-            accounts = self.accounts.filter(permission_receive_investigation_alert=True)
-        elif alert.is_legal():
-            accounts = self.accounts.filter(permission_receive_legal_alert=True)
-        else:
-            raise Exception('Alert type must be either legal or investigation')
-
-        for account in accounts:
-            account.email_user("alerts/" + alert.email_template, alert, context)
 
 
 class AccountManager(BaseUserManager):
@@ -180,7 +170,6 @@ class Alert(models.Model):
     code = models.CharField(max_length=255, unique=True)
     email_template = models.CharField(max_length=255)
 
-    permissions_group = models.ManyToManyField(DefaultPermissionsSet)
     objects = AlertManager()
 
     class Meta:
@@ -191,8 +180,15 @@ class Alert(models.Model):
         return self.code
 
     def email_permissions_set(self, context={}):
-        for x in self.permissions_group.all():
-            x.email_accounts(self, context)
+        if self.is_investigation():
+            accounts = Account.objects.filter(permission_receive_investigation_alert=True)
+        elif self.is_legal():
+            accounts = Account.objects.filter(permission_receive_legal_alert=True)
+        else:
+            raise Exception('Alert type must be either legal or investigation')
+
+        for a in accounts:
+            a.email_user("alerts/" + self.email_template, self, context)
 
     def is_investigation(self):
         return self.code in self.INVESTIGATION_CODES
