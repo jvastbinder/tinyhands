@@ -68,7 +68,7 @@ urlpatterns = [
         url(r'^country/(?P<pk>\d+)/$', CountryViewSet.as_view(detail), name='Countrydetail'),
 
         #Trafficker Match Alert
-        url(r'^traffickermatch/sendalert/$', send_station_match_alert, name='TraffickerMatch')
+        url(r'^traffickermatch/sendalert/$', send_station_match_alert, name='TraffickerMatch'),
         
         #Interception Alert
        url(r'^intercept-alerts/$', InterceptionAlertViewSet.as_view({'get':'list'}), name='InterceptionAlert'), 
