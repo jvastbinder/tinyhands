@@ -134,7 +134,7 @@ class IRFAlertChecker(object):
             return
         
         self.trafficker_name_match()
-        self.identified_trafficker()
+        self.severe_trafficking_signs()
 
     def trafficker_name_match(self):
         """Any time there is a trafficker name match from a separate interception.
@@ -172,7 +172,7 @@ class IRFAlertChecker(object):
             return True
         return False
     
-    def identified_trafficker(self):
+    def severe_trafficking_signs(self):
         """Email Alerts to Investigators
 
         Any time there is photo of a trafficker on the IRF and the response to question
@@ -190,12 +190,13 @@ class IRFAlertChecker(object):
         certainty_points = self.irf.how_sure_was_trafficking
         trafficker_list = []
         for intercep in self.interceptees:
+            # TODO Test if this is only being sent if trafficker has photo, if that is the case remove that condition
             if intercep.kind == 't' and intercep.photo not in [None, '']:
                 trafficker_list.append(intercep.person)
 
         if len(trafficker_list) > 0:
-            if (certainty_points >= 4) and (red_flags >= 400):
-                Alert.objects.send_alert("Identified Trafficker",
+            if (certainty_points >= 4) or (red_flags >= 400):
+                Alert.objects.send_alert("Severe Trafficking Signs",
                                          context={"site": settings.SITE_DOMAIN,
                                                   "irf": self.irf,
                                                   "trafficker_list": trafficker_list,
@@ -203,24 +204,6 @@ class IRFAlertChecker(object):
                                                   "trafficker_in_custody": trafficker_in_custody,
                                                   "red_flags": red_flags,
                                                   "certainty_points": certainty_points})
-                return True
-            elif certainty_points >= 4:
-                Alert.objects.send_alert("Identified Trafficker",
-                                         context={"site": settings.SITE_DOMAIN,
-                                                  "irf": self.irf,
-                                                  "trafficker_list": trafficker_list,
-                                                  "how_sure": True,
-                                                  "trafficker_in_custody": trafficker_in_custody,
-                                                  "certainty_points": certainty_points})
-                return True
-            elif red_flags >= 400:
-                Alert.objects.send_alert("Identified Trafficker",
-                                         context={"site": settings.SITE_DOMAIN,
-                                                  "irf": self.irf,
-                                                  "trafficker_list": trafficker_list,
-                                                  "flags": True,
-                                                  "trafficker_in_custody": trafficker_in_custody,
-                                                  "red_flags": red_flags})
                 return True
         return False
     

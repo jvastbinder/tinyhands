@@ -22,7 +22,8 @@ class DefaultPermissionsSet(models.Model):
     permission_vif_delete = models.BooleanField(default=False)
     permission_person_match = models.BooleanField(default=False)
     permission_accounts_manage = models.BooleanField(default=False)
-    permission_receive_investigation_alert = models.BooleanField(default=False)
+    permission_receive_case_lead_alert = models.BooleanField(default=False)
+    permission_receive_auto_name_alert = models.BooleanField(default=False)
     permission_receive_legal_alert = models.BooleanField(default=False)
     permission_border_stations_view = models.BooleanField(default=False)
     permission_border_stations_add = models.BooleanField(default=False)
@@ -40,7 +41,7 @@ class DefaultPermissionsSet(models.Model):
 
     def is_used_by_accounts(self):
         return self.accounts.count() > 0
-
+        
 
 
 class AccountManager(BaseUserManager):
@@ -88,7 +89,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     permission_vif_delete = models.BooleanField(default=False)
     permission_person_match = models.BooleanField(default=False)
     permission_accounts_manage = models.BooleanField(default=False)
-    permission_receive_investigation_alert = models.BooleanField(default=False)
+    permission_receive_case_lead_alert = models.BooleanField(default=False)
+    permission_receive_auto_name_alert = models.BooleanField(default=False)
     permission_receive_legal_alert = models.BooleanField(default=False)
     permission_border_stations_view = models.BooleanField(default=False)
     permission_border_stations_add = models.BooleanField(default=False)
@@ -160,12 +162,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
 class AlertManager(models.Manager):
     def send_alert(self, code, context={}):
-        Alert.objects.get(code=code).email_permissions_set(context)
+        Alert.objects.get(code=code).email_accounts(context)
 
 
 class Alert(models.Model):
     LEGAL_CODES = ['fir and dofe against', 'strength of case']
-    INVESTIGATION_CODES = ['Name Match', 'Identified Trafficker', 'Station Trafficker Match']
+    CASE_LEAD_CODES = ['Severe Trafficking Signs']
+    AUTO_NAME_MATCH_CODES = ['Name Match']
 
     code = models.CharField(max_length=255, unique=True)
     email_template = models.CharField(max_length=255)
@@ -179,19 +182,24 @@ class Alert(models.Model):
     def __unicode__(self):
         return self.code
 
-    def email_permissions_set(self, context={}):
-        if self.is_investigation():
-            accounts = Account.objects.filter(permission_receive_investigation_alert=True)
-        elif self.is_legal():
+    def email_accounts(self, context={}):
+        if alert.is_case_lead():
+            accounts = Account.objects.filter(permission_receive_case_lead_alert=True)
+        elif alert.is_auto_name_match():
+            accounts = Account.objects.filter(permission_receive_auto_name_alert=True)
+        elif alert.is_legal():
             accounts = Account.objects.filter(permission_receive_legal_alert=True)
         else:
-            raise Exception('Alert type must be either legal or investigation')
+            raise Exception('Alert type must be either legal, case lead, or auto name match')
 
-        for a in accounts:
-            a.email_user("alerts/" + self.email_template, self, context)
+        for account in accounts:
+            account.email_user("alerts/" + alert.email_template, alert, context)
 
-    def is_investigation(self):
-        return self.code in self.INVESTIGATION_CODES
+    def is_case_lead(self):
+        return self.code in self.CASE_LEAD_CODES
+
+    def is_auto_name_match(self):
+        return self.code in self.AUTO_NAME_MATCH_CODES
 
     def is_legal(self):
         return self.code in self.LEGAL_CODES

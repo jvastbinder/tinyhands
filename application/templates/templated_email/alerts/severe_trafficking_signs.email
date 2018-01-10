@@ -5,16 +5,7 @@
 
     <p class="descriptionOfAlert">
         This auto alert has been generated because IRF#{{ irf.irf_number }} was submitted with
-        {% if both %}
             {{ red_flags }} Red Flag points and a certainty rating of {{ certainty_points }} certainty points.
-        {% endif %}
-        {% if flags %}
-            {{ red_flags }} Red Flag points
-        {% endif %}
-
-        {% if how_sure %}
-            a certainty rating of {{ certainty_points }} certainty points.
-        {% endif %}
         <br/>
 
         The interception occurred at {{ irf.location }} at {{ irf.date_time_of_interception.time }} on {{ irf.date_time_of_interception.date }}.
