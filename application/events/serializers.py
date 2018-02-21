@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from events.models import Event
+from rest_api.hateoas import HateoasModelSerializer
 
 
-class EventsSerializer(serializers.ModelSerializer):
+class EventsSerializer(HateoasModelSerializer):
 
     class Meta:
         fields = '__all__'
         model = Event
+
 
     def validate(self, data):
         if data['is_repeat'] and not data['repetition']:
@@ -26,3 +28,7 @@ class EventsSerializer(serializers.ModelSerializer):
         if ends and ends <= start_date:
             raise serializers.ValidationError('Events repetition ends must be greater than first event end date.')
         return data
+
+
+    def link_self(self):
+        return {'self': 'http://google.com'}
